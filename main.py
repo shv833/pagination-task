@@ -23,16 +23,33 @@ def pagination(
     if current_page + around > total_pages:
         around = total_pages
 
-    result = set()
+    ## O(n*log(n)) approach
+    # result = set()
 
-    start = range(1, boundaries + 1)
-    around_current = range(
-        max(1, current_page - around), min(total_pages, current_page + around) + 1
-    )
-    end = range(total_pages - boundaries + 1, total_pages + 1)
+    # start = range(1, boundaries + 1)
+    # around_current = range(
+    #     max(1, current_page - around), min(total_pages, current_page + around) + 1
+    # )
+    # end = range(total_pages - boundaries + 1, total_pages + 1)
 
-    # sorted is important for my algoritm, because set is not an ordered data structure
-    result = sorted(result.union(start, around_current, end))
+    #
+    # result = sorted(result.union(start, around_current, end))
+
+    ## O(n) approach
+    result = []
+
+    for i in range(1, boundaries + 1):
+        result.append(i)
+
+    start_around = max(1, current_page - around)
+    end_around = min(total_pages, current_page + around)
+    for i in range(start_around, end_around + 1):
+        if i not in result:
+            result.append(i)
+
+    for i in range(total_pages - boundaries + 1, total_pages + 1):
+        if i not in result:
+            result.append(i)
 
     # beatify output
     pagination_str = ""
@@ -58,6 +75,7 @@ if __name__ == "__main__":
     print(pagination(1234, 500000, 10, 30))
     print(pagination(50, 100, 0, 2))
     print(pagination(4, 10, 1, 0))
+    print(pagination(1, 10, 2, 0))
 
     # start = time.time()
     # pagination(500_000_000_000, 1_000_000_000_000, 1_000_000, 100_000)
