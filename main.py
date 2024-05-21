@@ -1,6 +1,3 @@
-import time
-
-
 def pagination(
     current_page: int, total_pages: int, boundaries: int, around: int
 ) -> str:
@@ -20,8 +17,6 @@ def pagination(
 
     if boundaries > total_pages:
         boundaries = total_pages
-    if current_page + around > total_pages:
-        around = total_pages
 
     ## O(n*log(n)) approach
     # result = set()
@@ -51,6 +46,8 @@ def pagination(
         if i not in result:
             result.append(i)
 
+    # result.sort()
+
     # beatify output
     pagination_str = ""
     previous_page = result[0] if result else None
@@ -71,12 +68,11 @@ def pagination(
 
 
 if __name__ == "__main__":
-    print(pagination(200, 1_000_000_000_000, 10, 100))
-    print(pagination(1234, 500000, 10, 30))
-    print(pagination(50, 100, 0, 2))
-    print(pagination(4, 10, 1, 0))
-    print(pagination(1, 10, 2, 0))
 
+    print(pagination(9, 10, 4, 1))
+    print(pagination(10, 10, 3, 1))
+
+    # import time
     # start = time.time()
     # pagination(500_000_000_000, 1_000_000_000_000, 1_000_000, 100_000)
     # end = time.time()
